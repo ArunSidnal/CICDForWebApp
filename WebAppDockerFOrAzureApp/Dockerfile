@@ -1,18 +1,14 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS base
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/sdk AS build
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-
-WORKDIR /src
-COPY ["./WebAppDockerFOrAzureApp/WebAppFOrAzureApp.csproj", "./"]
-RUN dotnet restore "./WebAppFOrAzureApp.csproj"
+WORKDIR /code
 COPY . .
-RUN dotnet build "./WebAppFOrAzureApp.csproj" -c Release -o /app/build
+RUN dotnet restore 
 
-FROM build as publish
-RUN dotnet publish "./WebAppFOrAzureApp.csproj" -c Release -o /app/publish
+RUN dotnet publish --output /output --configuration Release
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:5.0.0
+COPY --from=build /output /app
+
 WORKDIR /app
-COPY --from=publish /app/publish .
-CMD dotnet "WebAppFOrAzureApp"
+
+ENTRYPOINT [ "dotnet", "WebAppFOrAzureApp.dll"]
