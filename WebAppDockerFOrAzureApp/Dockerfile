@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk AS build
 
 WORKDIR /code
-COPY ["./WebAppForAzureDocker/WebAppFOrAzureApp.csproj", "./"]
+COPY ["./WebAppDockerFOrAzureApp/WebAppFOrAzureApp.csproj", "./"]
 RUN dotnet restore 
 COPY . .
 RUN dotnet publish --output /output --configuration Release
