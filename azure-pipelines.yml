@@ -40,6 +40,7 @@ stages:
         command: 'Push an image'
         imageName: '$(ImageName)'
       condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    - task: CopyFiles@2
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
       inputs:
-        targetFolder: '$(System.DefaultWorkingDirectory)'
+       PathtoPublish: '$(System.DefaultWorkingDirectory)'
