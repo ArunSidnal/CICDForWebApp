@@ -40,3 +40,6 @@ stages:
         command: 'Push an image'
         imageName: '$(ImageName)'
       condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    - task: CopyFiles@2
+      inputs:
+        targetFolder: '$(System.DefaultWorkingDirectory)'
